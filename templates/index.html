@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>💰 Gold Rate Checker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f9fa;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      color: #333;
+    }
+    .card {
+      background: white;
+      padding: 30px 50px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    h2 {
+      color: #ffb700;
+    }
+    .rate {
+      font-size: 2.2em;
+      margin: 15px 0;
+      font-weight: bold;
+    }
+    .alert {
+      color: #dc3545;
+      font-weight: bold;
+    }
+    .safe {
+      color: #28a745;
+      font-weight: bold;
+    }
+    footer {
+      margin-top: 20px;
+      font-size: 0.9em;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>💰 Live Gold Rate Checker</h2>
+    <div class="rate">{{ rate }} ₹/gram</div>
+
+    {% if rate == "Error" %}
+      <p class="alert">⚠️ Could not fetch gold rate!</p>
+    {% elif alert %}
+      <p class="alert">⚠️ Rate is above your alert threshold!</p>
+    {% else %}
+      <p class="safe">✅ Rate is normal.</p>
+    {% endif %}
+
+    <footer>Last updated: {{ time.strftime('%Y-%m-%d %H:%M:%S') }}</footer>
+  </div>
+</body>
+</html>
