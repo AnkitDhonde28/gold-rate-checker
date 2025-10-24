@@ -1,4 +1,4 @@
-name: CI
+name: CI + CD Placeholder
 
 on:
   push:
@@ -8,15 +8,15 @@ on:
 
 permissions:
   contents: read
-  id-token: write   # minimal if later using OIDC for clouds
-  # do not grant excessive permissions; keep least privilege
+  id-token: write   # safe default; needed later if you use cloud OIDC deploys
 
 jobs:
-  lint-and-test:
-    name: Lint & Test
+  test:
+    name: Run Python Tests
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Setup Python
@@ -30,29 +30,24 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run tests
-        run: |
-          pytest -q
+        run: pytest -q
 
-      - name: Upload pytest results (artifact)
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: pytest-results
-          path: ./tests
-  # CD placeholder — protected by environment and manual approval
   deploy-placeholder:
-    name: Deploy (placeholder)
-    needs: lint-and-test
+    name: Deploy Placeholder (manual approval)
+    needs: test
     runs-on: ubuntu-latest
     environment:
       name: staging
-      url: https://example.com  # optional
+      url: https://Goldratechcker.com  # optional placeholder link
     if: github.ref == 'refs/heads/main'
+
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Placeholder deploy script
+      - name: Run placeholder deploy
         run: |
-          chmod +x ./deploy/deploy_placeholder.sh
-          ./deploy/deploy_placeholder.sh
+          echo "=== Running Placeholder Deploy ==="
+          mkdir -p deploy_output
+          echo "Deployed placeholder at $(date)" > deploy_output/info.txt
+          ls -l deploy_output
