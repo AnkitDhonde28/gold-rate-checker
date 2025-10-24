@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+  id-token: write   # minimal if later using OIDC for clouds
+  # do not grant excessive permissions; keep least privilege
+
+jobs:
+  lint-and-test:
+    name: Lint & Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run tests
+        run: |
+          pytest -q
+
+      - name: Upload pytest results (artifact)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pytest-results
+          path: ./tests
+  # CD placeholder — protected by environment and manual approval
+  deploy-placeholder:
+    name: Deploy (placeholder)
+    needs: lint-and-test
+    runs-on: ubuntu-latest
+    environment:
+      name: staging
+      url: https://example.com  # optional
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Placeholder deploy script
+        run: |
+          chmod +x ./deploy/deploy_placeholder.sh
+          ./deploy/deploy_placeholder.sh

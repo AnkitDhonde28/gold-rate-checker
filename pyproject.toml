@@ -1,0 +1,3 @@
+[tool.poetry] # optional if you use poetry; otherwise ignore
+name = "gold-rate-checker"
+version = "0.1.0"
