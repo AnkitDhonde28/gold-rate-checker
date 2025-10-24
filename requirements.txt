@@ -1,2 +1,5 @@
 pytest>=7.0
 pip freeze > requirements.txt
+flask
+pytest
+
